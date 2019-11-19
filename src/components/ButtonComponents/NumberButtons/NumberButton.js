@@ -1,14 +1,14 @@
 import React from "react";
 
 export const NumberButton = (props) => {
- 
+ console.log("NumberButton", props)
   return (
     <button
-    onClick={() =>{}}
-    className="num-btn"
+    onClick={() => props.setSelectedNumber(props.id)}
+      className="num-btn"
+      id = {props.id}
     >
-      <p>{props.number1}</p>
-      {/* Display a button element rendering the data being passed down from the parent container on props */}
+      {props.id}
     </button>
   );
 };

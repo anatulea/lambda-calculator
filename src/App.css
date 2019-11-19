@@ -21,13 +21,15 @@
 }
 .display-box{
 margin:0 15px;
+width:88%;
+margin-bottom:8px;
 
 }
 .display {
     margin-top: 25px;
     height: 35px;
     margin:0px auto;
-    width: 88%;
+    width: auto;
     border-radius: 50px;
     color: white;
     background-color: #322c2d;
