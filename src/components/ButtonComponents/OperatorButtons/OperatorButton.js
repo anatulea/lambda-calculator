@@ -1,15 +1,13 @@
 import React from "react";
 
 export const OperatorButton = (props) => {
-  console.log("OperatorButton", props);
   
-
   return (
     <button
-      onClick={() =>props.setOperatorValue(props.id)}
+    onClick={() => props.handleClick(props.children)}
       className="opr-btn"
       >
-      {props.id}
+      {props.children}
     </button>
   );
 };

@@ -1,37 +1,39 @@
 import React, { useState } from "react";
-import { Numbers } from './components/ButtonComponents/NumberButtons/Numbers.js';
-import { Operators } from './components/ButtonComponents/OperatorButtons/Operators.js';
-import { Specials } from './components/ButtonComponents/SpecialButtons/Specials.js';
 import Logo from "./components/DisplayComponents/Logo";
-import Display from "./components/DisplayComponents/Display"
-import { numbers, operators, specials } from "./data.js"
-
+import Display from "./components/DisplayComponents/Display";
+import { NumberButton } from "./components/ButtonComponents/NumberButtons/NumberButton.js";
+import { SpecialButton } from "./components/ButtonComponents/SpecialButtons/SpecialButton.js";
+import { OperatorButton } from "./components/ButtonComponents/OperatorButtons/OperatorButton.js"
+import * as math from 'mathjs';
 import "./index.css";
 import "./App.css";
 
-// STEP 4 - import the button and display components
-// Don't forget to import any extra css/scss files you build into the correct component
-
-// Logo has already been provided for you. Do the same for the remaining components
-
 function App() {
-  // STEP 5 - After you get the components displaying using the provided data file, write your state hooks here.
-  // Once the state hooks are in place write some functions to hold data in state and update that data depending on what it needs to be doing
-  // Your functions should accept a parameter of the the item data being displayed to the DOM (ie - should recieve 5 if the user clicks on
-  // the "5" button, or the operator if they click one of those buttons) and then call your setter function to update state.
-  // Don't forget to pass the functions (and any additional data needed) to the components as props
-  const [numberState, setNumberState] = useState(numbers);
-  const [selectedNumber, setSelectedNumber] = useState(numberState[""]);
-  const [operatorState, setOperatorState] = useState(operators);
-  const [operatorValue, setOperatorValue] = useState(operatorState[0]);
-  const [specialState, setSpecialState] = useState(specials);
-  const [display, displayState] = useState("")
+  const [input, setInput] =useState("");
 
-  function hadleClick (event){
-let value = event.target.value;
-displayState(display +value);
-
+  const handleClear = () => {
+    setInput('');
   }
+  const addToInput = (val)=> {
+  setInput( input ==='0' ? String(val):input + val);
+   };
+  const inputDot  = () => {
+    if(input.indexOf('.')=== -1){
+      setInput(input + '.')
+    }
+  }
+  const toggleSign = () =>{
+    setInput(input.charAt(0)==='-' ? input.substr(1): '-' + input)
+  }
+  const inputPercent =() => {
+    const value =parseFloat(input);
+    setInput(String(value/100))
+  }
+  
+   const handleEqual = () => {
+     setInput(math.evaluate(input))
+   }
+
   return (
     <div className="container">
       <div className="logo-div">
@@ -39,44 +41,37 @@ displayState(display +value);
       </div>
       <div className="display-box">
          <Display
-         display={display}
-         dispState={displayState} 
-         selectedNumber={selectedNumber}
-         setSelectedNumber={setSelectedNumber}
-         operatorState={operatorState}
-         setOperatorState={setOperatorState}
+       input={input}
          />
       </div>
       <div className="App">
-      <div className="bigBox">
-       <div className="firstBox">
-       <Specials
-       specialState ={specialState}
-       setSpecialState ={setSpecialState}
-       />
-        <Numbers
-        numberState ={numberState} 
-        setNumberState={setNumberState}
-        selectedNumber={selectedNumber}
-        setSelectedNumber={setSelectedNumber}
-        display={display}
-        dispState={displayState} 
-        />
-       
+        <div className="bigBox">
+            <div className="firstBox">
+              <SpecialButton handleClick={handleClear}>C</SpecialButton>
+              <SpecialButton handleClick={toggleSign}>+/-</SpecialButton>
+              <SpecialButton handleClick={inputPercent}>%</SpecialButton>
+
+              <NumberButton handleClick={addToInput}>7</NumberButton>
+              <NumberButton handleClick={addToInput}>8</NumberButton>
+              <NumberButton handleClick={addToInput}>9</NumberButton>
+              <NumberButton handleClick={addToInput}>4</NumberButton> 
+              <NumberButton handleClick={addToInput}>5</NumberButton>
+              <NumberButton handleClick={addToInput}>6</NumberButton>
+              <NumberButton handleClick={addToInput}>1</NumberButton>
+              <NumberButton handleClick={addToInput}>2</NumberButton>
+              <NumberButton handleClick={addToInput}>3</NumberButton>
+              <NumberButton handleClick={addToInput}>0</NumberButton>
+              <NumberButton handleClick={inputDot}>.</NumberButton> 
+              </div>
+            <div className="secondBox" >
+              <OperatorButton handleClick={addToInput}>/</OperatorButton>
+              <OperatorButton handleClick={addToInput}>*</OperatorButton>
+              <OperatorButton handleClick={addToInput}>-</OperatorButton>
+              <OperatorButton handleClick={addToInput}>+</OperatorButton>
+              <OperatorButton handleClick={handleEqual}>=</OperatorButton>
+            </div>
+            </div>
         </div>
-        <div className="secondBox" >
-        < Operators
-        operatorState={operatorState}
-        setOperatorState={setOperatorState}
-        display={display}
-        dispState={displayState} 
-        operatorValue ={operatorValue}
-        setOperatorValue ={setOperatorValue}
-        />
-        </div>
-        </div>
-        {/* STEP 4 - Render your components here and be sure to properly import/export all files */}
-      </div>
     </div>
   );
 }

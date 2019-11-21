@@ -1,14 +1,12 @@
 import React from "react";
 
 export const NumberButton = (props) => {
- console.log("NumberButton", props)
   return (
     <button
-    onClick={() => props.setSelectedNumber(props.id)}
-      className="num-btn"
-      id = {props.id}
+    className="num-btn"
+    onClick={() => props.handleClick(props.children)}
     >
-      {props.id}
+      {props.children}
     </button>
   );
 };
